@@ -1,5 +1,9 @@
 import java.util.Random;
+/**
+ * a class that contains everything about a minefield, including a constructor and a reveal/movement method
+ */
 
+ //TODO: create a movement method
 public class Minefield{
     int [][] map;
     boolean [][] displayed;
@@ -26,9 +30,11 @@ public class Minefield{
                     int mineCounter = 0;
                     for (int a = -1; a < 2; a++) {
                         for (int b = -1; b < 2; b++) {
-                            if (map[a][b] < 0) {
-                                mineCounter++;
-                            }
+                            try{
+                                if (map[i + a][j + b] < 0) {
+                                    mineCounter++;
+                                }
+                            } catch (ArrayIndexOutOfBoundsException e){}
                         }
                     }
                     map[i][j] = mineCounter;
@@ -39,15 +45,26 @@ public class Minefield{
         figureOutDisplayed(initialX, initialY);
     }
 
+    /**
+     * a recursive helper method that displays bordering areas that are not covered by mines
+     * should be called every time a coordinate is revealed
+     * changes displayed value to true if the value is not a mine
+     * @param x x coordinate of the point to be checked
+     * @param y y coordinate of the point to be checked
+     */
     private void figureOutDisplayed(int x, int y) {
+        if (map[x][y] < 0) {
+            return;
+        }
         displayed[x][y] = true;
         for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
                 if (!displayed[i + x][j + y] && map[i + x][j + y] >= 0) {
-                    figureOutDisplayed(i + x, j + y);
+                    try {
+                        figureOutDisplayed(i + x, j + y);
+                    } catch (ArrayIndexOutOfBoundsException e) {}
                 }
             }
         }
     }
-
 }

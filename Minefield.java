@@ -4,19 +4,23 @@
 // randomly generate a specific number of coordinates for mines
 import java.util.Random;
 /**
- * a class that contains everything about a minefield, including a constructor and a reveal/movement method
+ * a class that contains everything about a minefield,
+ * including a constructor and a reveal/movement method.
+ * Implemented naively using QuickFind arrays. Performance
+ * should not be an issue given a reasonable size of the data.
+ * @author Andrew Zhang
+ * @author Ella Schwarz
  */
-
-public class Minefield implements MineMap{
-    int [][] map;
-    boolean [][] displayed;
+public class Minefield implements MineMap {
+    private int [][] map;
+    private boolean [][] displayed;
 
     public Minefield(int sizeX, int sizeY, int initialX, int initialY) {
         map = new int[sizeX][sizeY];
         map[initialX][initialY] = 0;
         Random rng = new Random();
         // Number of Mines is 1/10 of the area
-        int numberOfMines  = sizeX*sizeY/10;
+        int numberOfMines  = sizeX * sizeY / 10;
         // Generate the position of the mines
         for (int i = 0; i < numberOfMines; i++) {
             int randomX = rng.nextInt(sizeX);
@@ -34,11 +38,11 @@ public class Minefield implements MineMap{
                     int mineCounter = 0;
                     for (int a = -1; a < 2; a++) {
                         for (int b = -1; b < 2; b++) {
-                            try{
+                            try {
                                 if (map[i + a][j + b] < 0) {
                                     mineCounter++;
                                 }
-                            } catch (ArrayIndexOutOfBoundsException e){}
+                            } catch (ArrayIndexOutOfBoundsException e) { }
                         }
                     }
                     map[i][j] = mineCounter;
@@ -50,9 +54,10 @@ public class Minefield implements MineMap{
     }
 
     /**
-     * a recursive helper method that displays bordering areas that are not covered by mines
-     * should be called every time a coordinate is revealed
-     * changes displayed value to true if the value is not a mine
+     * a recursive helper method that displays bordering areas
+     * that are not covered by mines should be called every time
+     * a coordinate is revealed.
+     * changes displayed value to true if the value is not a mine.
      * @param x x coordinate of the point to be checked
      * @param y y coordinate of the point to be checked
      */
@@ -69,15 +74,16 @@ public class Minefield implements MineMap{
                 if (!displayed[i + x][j + y] && map[i + x][j + y] >= 0) {
                     try {
                         figureOutDisplayed(i + x, j + y);
-                    } catch (ArrayIndexOutOfBoundsException e) {}
+                    } catch (ArrayIndexOutOfBoundsException e) { }
                 }
             }
         }
     }
 
     /**
-     * A function that calls on the private helper method in order to determine if the
-     * move is legal and calculate the repercussions
+     * A function that calls on the private helper method
+     * in order to determine if the move is legal and
+     * calculate the repercussions.
      * @param x x coordinate of the value checked
      * @param y y coordinate of the value checked
      * @return whether the value is a mine
@@ -93,7 +99,7 @@ public class Minefield implements MineMap{
 
     /**
      * method that returns an array of the information to be displayed through
-     * the combination of this.displayed and this.map
+     * the combination of this.displayed and this.map.
      * @return a 2D array of the information that can be displayed
      */
     @Override
@@ -113,7 +119,8 @@ public class Minefield implements MineMap{
 
     /**
      * loop through the whole entire array in order to determine whether any
-     * non-displayed tile is not a mine, and returns false if a single spot is not displayed
+     * non-displayed tile is not a mine, and returns false
+     * if a single spot is not displayed.
      * @return boolean that specify whether the game is won or not
      */
     @Override

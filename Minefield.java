@@ -61,6 +61,9 @@ public class Minefield implements MineMap{
             return;
         }
         displayed[x][y] = true;
+        if (map[x][y] > 0) {
+            return;
+        }
         for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
                 if (!displayed[i + x][j + y] && map[i + x][j + y] >= 0) {
@@ -106,5 +109,24 @@ public class Minefield implements MineMap{
             }
         }
         return displayMap;
+    }
+
+    /**
+     * loop through the whole entire array in order to determine whether any
+     * non-displayed tile is not a mine, and returns false if a single spot is not displayed
+     * @return boolean that specify whether the game is won or not
+     */
+    @Override
+    public boolean isGameWon() {
+        for (int x = 0; x < map.length; x++) {
+            for (int y = 0; y < map[x].length; y++) {
+                if (!displayed[x][y]) {
+                    if (map[x][y] >= 0) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 }

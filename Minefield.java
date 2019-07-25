@@ -1,3 +1,7 @@
+// i guess i can write code or whatever
+// board generator
+// note that when playing, the first spot is never a mine
+// randomly generate a specific number of coordinates for mines
 import java.util.Random;
 /**
  * a class that contains everything about a minefield, including a constructor and a reveal/movement method
@@ -12,7 +16,7 @@ public class Minefield{
         map = new int[sizeX][sizeY];
         map[initialX][initialY] = 0;
         Random rng = new Random();
-        int numberOfMines  = rng.nextInt(sizeX * sizeY);
+        int numberOfMines  = sizeX*sizeY/10;
         // Generate the position of the mines
         for (int i = 0; i < numberOfMines; i++) {
             int randomX = rng.nextInt(sizeX);

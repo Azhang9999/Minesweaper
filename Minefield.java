@@ -7,8 +7,7 @@ import java.util.Random;
  * a class that contains everything about a minefield, including a constructor and a reveal/movement method
  */
 
- //TODO: create a movement method
-public class Minefield{
+public class Minefield implements MineMap{
     int [][] map;
     boolean [][] displayed;
 
@@ -16,6 +15,7 @@ public class Minefield{
         map = new int[sizeX][sizeY];
         map[initialX][initialY] = 0;
         Random rng = new Random();
+        // Number of Mines is 1/10 of the area
         int numberOfMines  = sizeX*sizeY/10;
         // Generate the position of the mines
         for (int i = 0; i < numberOfMines; i++) {
@@ -70,5 +70,41 @@ public class Minefield{
                 }
             }
         }
+    }
+
+    /**
+     * A function that calls on the private helper method in order to determine if the
+     * move is legal and calculate the repercussions
+     * @param x x coordinate of the value checked
+     * @param y y coordinate of the value checked
+     * @return whether the value is a mine
+     */
+    @Override
+    public boolean move(int x, int y) {
+        if (map[x][y] < 0) {
+            return false;
+        }
+        figureOutDisplayed(x, y);
+        return true;
+    }
+
+    /**
+     * method that returns an array of the information to be displayed through
+     * the combination of this.displayed and this.map
+     * @return a 2D array of the information that can be displayed
+     */
+    @Override
+    public int[][] getDisplayedMap() {
+        int[][] displayMap = new int[map.length][map[0].length];
+        for (int x = 0; x < map.length; x++) {
+            for (int y = 0; y < map[0].length; y++) {
+                if (this.displayed[x][y]) {
+                    displayMap[x][y] = map[x][y];
+                } else {
+                    displayMap[x][y] = 0;
+                }
+            }
+        }
+        return displayMap;
     }
 }

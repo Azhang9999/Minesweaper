@@ -18,7 +18,7 @@ public class Minefield implements MineMap {
     public Minefield(int sizeX, int sizeY, int initialX, int initialY) {
         map = new int[sizeX][sizeY];
         map[initialX][initialY] = 0;
-        Random rng = new Random();
+        Random rng = new Random(3);
         // Number of Mines is 1/10 of the area
         int numberOfMines  = sizeX * sizeY / 10;
         // Generate the position of the mines
@@ -50,6 +50,7 @@ public class Minefield implements MineMap {
             }
         }
         //figure out what to display
+        displayed = new boolean[sizeX][sizeY];
         figureOutDisplayed(initialX, initialY);
     }
 
@@ -62,7 +63,7 @@ public class Minefield implements MineMap {
      * @param y y coordinate of the point to be checked
      */
     private void figureOutDisplayed(int x, int y) {
-        if (map[x][y] < 0) {
+        if (map[x][y] < 0 || displayed[x][y]) {
             return;
         }
         displayed[x][y] = true;
@@ -70,15 +71,19 @@ public class Minefield implements MineMap {
             return;
         }
         for (int i = -1; i < 2; i++) {
-            for (int j = -1; j < 2; j++) {
-                if (!displayed[i + x][j + y] && map[i + x][j + y] >= 0) {
-                    try {
-                        figureOutDisplayed(i + x, j + y);
-                    } catch (ArrayIndexOutOfBoundsException e) { }
-                }
+            try {
+                figureOutDisplayed(i + x, y);
+            } catch (ArrayIndexOutOfBoundsException e) {
+            }
+        }
+        for (int j = -1; j < 2; j++) {
+            try {
+                figureOutDisplayed(x, j + y);
+            } catch (ArrayIndexOutOfBoundsException e) {
             }
         }
     }
+
 
     /**
      * A function that calls on the private helper method
@@ -110,7 +115,7 @@ public class Minefield implements MineMap {
                 if (this.displayed[x][y]) {
                     displayMap[x][y] = map[x][y];
                 } else {
-                    displayMap[x][y] = 0;
+                    displayMap[x][y] = -10;
                 }
             }
         }

@@ -1,7 +1,4 @@
-// i guess i can write code or whatever
-// board generator
-// note that when playing, the first spot is never a mine
-// randomly generate a specific number of coordinates for mines
+
 import java.util.Random;
 /**
  * a class that contains everything about a minefield,
@@ -9,7 +6,6 @@ import java.util.Random;
  * Implemented naively using QuickFind arrays. Performance
  * should not be an issue given a reasonable size of the data.
  * @author Andrew Zhang
- * @author Ella Schwarz
  */
 public class Minefield implements MineMap {
     private int [][] map;
@@ -87,7 +83,6 @@ public class Minefield implements MineMap {
             }
         }
     }
-
 
     /**
      * A function that calls on the private helper method

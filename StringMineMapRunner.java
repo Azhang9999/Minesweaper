@@ -1,5 +1,9 @@
 import java.util.Scanner;
 
+/**
+ * A class that can be called to run the map to make it a game
+ * @author Andrew Zhang
+ */
 public class StringMineMapRunner implements MineMapRunner {
     private MineMap map;
 
@@ -12,6 +16,11 @@ public class StringMineMapRunner implements MineMapRunner {
         display(map);
     }
 
+    /**
+     * A static method that prints out the layout of the map for the
+     * player as strings.
+     * @param map The map that is used to display the current status
+     */
     public static void display(MineMap map) {
         int[][] toBeDisplayed = map.getDisplayedMap();
         System.out.print("  ");

@@ -14,11 +14,15 @@ import java.util.Random;
 public class Minefield implements MineMap {
     private int [][] map;
     private boolean [][] displayed;
+    private int x;
+    private int y;
 
     public Minefield(int sizeX, int sizeY, int initialX, int initialY) {
+        this.x = sizeX;
+        this.y = sizeY;
         map = new int[sizeX][sizeY];
         map[initialX][initialY] = 0;
-        Random rng = new Random(3);
+        Random rng = new Random();
         // Number of Mines is 1/10 of the area
         int numberOfMines  = sizeX * sizeY / 10;
         // Generate the position of the mines
@@ -110,8 +114,8 @@ public class Minefield implements MineMap {
     @Override
     public int[][] getDisplayedMap() {
         int[][] displayMap = new int[map.length][map[0].length];
-        for (int x = 0; x < map.length; x++) {
-            for (int y = 0; y < map[0].length; y++) {
+        for (int x = 0; x < this.x; x++) {
+            for (int y = 0; y < this.y; y++) {
                 if (this.displayed[x][y]) {
                     displayMap[x][y] = map[x][y];
                 } else {
@@ -140,5 +144,15 @@ public class Minefield implements MineMap {
             }
         }
         return true;
+    }
+
+    @Override
+    public int getX() {
+        return x;
+    }
+
+    @Override
+    public int getY() {
+        return y;
     }
 }
